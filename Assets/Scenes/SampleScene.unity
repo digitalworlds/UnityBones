@@ -119,6 +119,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &3727591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3727593}
+  - component: {fileID: 3727592}
+  m_Layer: 0
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &3727592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0557626ed122d432fa828b6e0f48c61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &3727593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727591}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.018072426, y: -1.113932, z: 5.004127}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,8 +430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 510396368}
-  - component: {fileID: 510396367}
-  - component: {fileID: 510396369}
+  - component: {fileID: 510396370}
   m_Layer: 0
   m_Name: DataLoader
   m_TagString: Untagged
@@ -395,18 +438,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &510396367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 510396366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a58db42d1a2842988f77b653c324875, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &510396368
 Transform:
   m_ObjectHideFlags: 0
@@ -422,7 +453,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &510396369
+--- !u!114 &510396370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -431,9 +462,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 510396366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a834ff6121624b10b6b5880a3b393e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a58db42d1a2842988f77b653c324875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  json_url: https://digitalworlds.github.io/CURE25_Test/models/Callithrix/Callithrix.json
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,3 +523,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 510396368}
+  - {fileID: 3727593}

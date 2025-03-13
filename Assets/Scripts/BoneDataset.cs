@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class LandmarkEntry
+public class BoneInfo
 {
     public string id;   // "jaw"
     public string name; // "Jaw"
@@ -10,7 +11,8 @@ public class LandmarkEntry
 }
 
 [System.Serializable]
-public class LandmarkData
+public class BoneDataset
 {
-    public List<LandmarkEntry> landmarks;
+    public List<BoneInfo> bones;
+    public string url;
 }
