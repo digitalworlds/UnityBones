@@ -2,14 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class SkullViewerMultiPlatform : MonoBehaviour
+public class SkeletonViewerMultiPlatform : MonoBehaviour
 {
     // can change all the speeds to however you'd like
     [Header("Target & Distance")]
+    [SerializeField] private SkeletonLoader skeletonLoader;
     public Transform target;
     public float distance = 2f;
     public float minDistance = 0.5f;
-    public float maxDistance = 5f;
+    public float maxDistance = 15f;
 
     [Header("Rotation Settings (Mouse & Keys)")]
     public float mouseRotationSpeed = 50f;
@@ -33,7 +34,7 @@ public class SkullViewerMultiPlatform : MonoBehaviour
     [Header("Tap Threshold (Touch)")]
     public float tapThreshold = 20f;
 
-    private float currentX = 0f;
+    private float currentX = 180f;
     private float currentY = 0f;
     private bool isDraggingMouse = false;
     private Vector3 mouseDownPos;
@@ -51,10 +52,12 @@ public class SkullViewerMultiPlatform : MonoBehaviour
         {
             Debug.LogWarning("SkullViewerMultiPlatform: No target assigned!");
         }
+        UpdateTarget();
     }
 
     void Update()
     {
+        UpdateTarget();
         if (target == null) return;
 
         if (Input.touchCount == 0)
@@ -86,7 +89,17 @@ public class SkullViewerMultiPlatform : MonoBehaviour
         transform.LookAt(target.position);
     }
 
-    
+    private void UpdateTarget()
+    {
+        if (skeletonLoader != null && skeletonLoader.CurrentSkeleton != null && target != skeletonLoader.CurrentSkeleton.transform)
+        {
+            target = skeletonLoader.CurrentSkeleton.transform;
+            Debug.Log($"Viewer target updated to: {target.name}");
+            currentX = 0f;
+            currentY = 0f;
+        }
+    }
+
     // define mouse & keys for desktop 
     void HandleMouseAndKeyboard()
     {
