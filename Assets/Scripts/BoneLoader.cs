@@ -181,6 +181,17 @@ public class BoneLoader : MonoBehaviour
         
     }
 
+    public GameObject GetNewBoneInstance(string id)
+    {
+        GameObject obj=GetBoneObject(id);
+
+        //Create a new instnance of the bone
+        GameObject newInstance = Instantiate(obj);
+        newInstance.name=id;
+
+        return newInstance;
+    }
+
     public bool IsJSONLoaded(){return JSON_LOADED;}
     public bool IsGLBLoaded(){return GLB_LOADED;}
 }

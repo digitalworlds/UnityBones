@@ -26,11 +26,7 @@ public class Test : MonoBehaviour
                 //To access the bone facts: bone.fact
 
                 //Get the bone
-                GameObject obj=BoneLoader.Instance.GetBoneObject(bone.id);
-
-                //Create a new instnance of the bone
-                GameObject newInstance = Instantiate(obj);
-                newInstance.name=bone.id;
+                GameObject newInstance=BoneLoader.Instance.GetNewBoneInstance(bone.id);
                 newInstance.transform.parent=transform;
                 newInstance.transform.localPosition=new Vector3(0,0,100); 
             }
