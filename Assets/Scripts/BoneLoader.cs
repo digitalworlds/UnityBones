@@ -102,29 +102,47 @@ public class BoneLoader : MonoBehaviour
             // Assuming "gameObject" is your desired GameObject
 
         
-            /*Renderer renderer = gameObject.GetComponentInChildren<Renderer>();
+            Renderer renderer = newChild.GetComponentInChildren<Renderer>();
 
             Bounds boundingBox = renderer.bounds; 
 
             // Accessing specific values from the bounding box
 
-            Vector3 center = boundingBox.center;
+            Vector3 localCenter = newChild.transform.InverseTransformPoint(boundingBox.center);
+            Debug.Log(localCenter);
 
             Vector3 extents = boundingBox.extents;
             Debug.Log(extents);
 
-            float size=Math.Max(Math.Max(extents.x,extents.y), extents.z);
+            float size=2*Math.Max(Math.Max(extents.x,extents.y), extents.z);
             if(size==0)size=1;
 
-            transform.localScale=new Vector3(1/size,1/size,1/size);*/
+            float scale=1f/size;
+
+            //transform.localScale=new Vector3(1/size,1/size,1/size);
 
 
             objectDict = new Dictionary<string, GameObject>();
             foreach (var entry in boneDict)
             {
                 BoneInfo bone = entry.Value;
-                
-                objectDict[bone.id]=FindChildGameObjectRecursive(transform,bone.id);
+
+                GameObject outterBoneHolder = new GameObject(bone.id);
+                outterBoneHolder.transform.parent=newChild.transform; 
+
+                GameObject boneHolder = new GameObject(bone.id);
+                boneHolder.transform.parent=outterBoneHolder.transform; 
+                boneHolder.transform.localPosition-=localCenter;           
+
+                GameObject boneObject=FindChildGameObjectRecursive(transform,bone.id);
+                boneObject.transform.localScale=new Vector3(scale,scale,scale);
+                boneHolder.transform.localScale=new Vector3(1,1,1);
+                boneObject.transform.parent=boneHolder.transform;
+
+                renderer = boneObject.GetComponentInChildren<Renderer>();
+                boundingBox = renderer.bounds; 
+
+                objectDict[bone.id]=outterBoneHolder;
             }
 
             FindChildGameObjectRecursive(transform,"name");

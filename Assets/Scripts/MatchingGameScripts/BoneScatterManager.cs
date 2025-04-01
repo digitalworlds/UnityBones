@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class BoneScatterManager : MonoBehaviour
 {
@@ -36,7 +37,8 @@ public class BoneScatterManager : MonoBehaviour
             {
                 GameObject referenceBone = Instantiate(bone, referenceArea); // copy each bone in reference area
                 referenceBone.name = boneId + "_Reference";
-                MakeTransparent(referenceBone); // suppose to be see through - need to work on this 🔙
+                SetTransparency(referenceBone, 0.5f);
+                //MakeTransparent(referenceBone); // suppose to be see through - need to work on this 🔙
 
                 MatchingGameManager.Instance.RegisterCorrectPosition(boneId, referenceBone.transform);// correct target position for that bome
 
@@ -45,6 +47,28 @@ public class BoneScatterManager : MonoBehaviour
 
         Debug.Log("✅ Reference bones created.");
     }
+
+    private void SetTransparency(GameObject obj, float alpha)
+    {
+        Renderer renderer = obj.GetComponentInChildren<Renderer>();
+
+        
+        if (renderer != null)
+        {
+            renderer.material=null;
+            Material newMaterial = new Material(Resources.Load<Material>("TransparentMaterial"));
+            if (newMaterial != null)
+            {
+                renderer.material = newMaterial;
+                renderer.material.SetColor("_Color", new Color(0, 0, 1, 0.1f));
+            }
+            else
+            {
+                Debug.LogWarning("TransparentMaterial not found in Resources!");
+            }
+        }
+    }
+
 
     private IEnumerator SpawnScatteredBones()
     {
@@ -69,7 +93,7 @@ public class BoneScatterManager : MonoBehaviour
                     Random.Range(-scatterBounds.y, scatterBounds.y),
                     Random.Range(-scatterBounds.z, scatterBounds.z)
                 );
-                Vector3 scatterPosition = scatterCenter + randomOffset;
+                Vector3 scatterPosition = scatterCenter + 0*randomOffset;
 
                 draggableBone.transform.position = scatterPosition;
                 draggableBone.transform.rotation = Quaternion.Euler( // randomly rotates the bone on all 3 axes 
@@ -85,14 +109,33 @@ public class BoneScatterManager : MonoBehaviour
                     drag.boneId = boneId;
                 }
 
+                MeshFilter childMeshFilter = draggableBone.GetComponentInChildren<MeshFilter>();
                 // Add MeshCollider to trigger interaction
                 if (draggableBone.GetComponent<Collider>() == null)
                 {
-                    var collider = draggableBone.AddComponent<MeshCollider>();
-                    collider.convex = false;
+                    // Create a new mesh instance (avoid modifying the shared asset)
+                    Mesh transformedMesh = Instantiate(childMeshFilter.sharedMesh);
+
+                    // Apply child's transform to the mesh vertices
+                    Transform childTransform = childMeshFilter.transform;
+                    Vector3[] vertices = transformedMesh.vertices;
+                    
+                    for (int i = 0; i < vertices.Length; i++)
+                    {
+                        vertices[i] = childTransform.TransformPoint(vertices[i]); // Convert to world space
+                        vertices[i] = draggableBone.transform.InverseTransformPoint(vertices[i]); // Convert to parent space
+                    }
+                    
+                    transformedMesh.vertices = vertices;
+                    transformedMesh.RecalculateBounds();
+
+                    // Add MeshCollider to parent and assign the transformed mesh
+                    MeshCollider collider = draggableBone.AddComponent<MeshCollider>();
+                    collider.sharedMesh = transformedMesh;
+                    
                 }
 
-                Debug.Log($"🦴 {boneId} scattered to {scatterPosition}");
+                //Debug.Log($"🦴 {boneId} scattered to {scatterPosition}");
             }
         }
 
