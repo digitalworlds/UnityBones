@@ -3648,7 +3648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1276902771}
-  - component: {fileID: 1276902772}
+  - component: {fileID: 1276902770}
   m_Layer: 0
   m_Name: BoneScatteringManager
   m_TagString: Untagged
@@ -3656,6 +3656,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1276902770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276902769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d628dba632fdc43348dc8ea5ec9c54ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  referenceArea: {fileID: 2100702559}
+  scatterArea: {fileID: 997205913}
+  scatterBounds: {x: 2, y: 2, z: 2}
 --- !u!4 &1276902771
 Transform:
   m_ObjectHideFlags: 0
@@ -3671,21 +3686,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1276902772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1276902769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d628dba632fdc43348dc8ea5ec9c54ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  referenceArea: {fileID: 2100702559}
-  scatterArea: {fileID: 997205913}
-  scatterBounds: {x: 2, y: 2, z: 2}
 --- !u!1 &1290008648
 GameObject:
   m_ObjectHideFlags: 0
