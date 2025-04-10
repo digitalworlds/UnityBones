@@ -86,6 +86,8 @@ public class BoneScatterManager : MonoBehaviour
                 draggableBone.name = boneId;
                 draggableBone.transform.parent = null;
 
+            
+
                 // Calculate random position inside scatter area
                 Vector3 scatterCenter = scatterArea.position;
                 Vector3 randomOffset = new Vector3(
@@ -132,6 +134,8 @@ public class BoneScatterManager : MonoBehaviour
                     // Add MeshCollider to parent and assign the transformed mesh
                     MeshCollider collider = draggableBone.AddComponent<MeshCollider>();
                     collider.sharedMesh = transformedMesh;
+
+                    //Rigidbody rigidbody=draggableBone.AddComponent<Rigidbody>();
                     
                 }
 
