@@ -232,7 +232,7 @@ public class SkullViewerMultiPlatform : MonoBehaviour
             if (landmark != null)
             {
                 // get data from JSON 
-                LandmarkEntry entry = LandmarkDataLoader.Instance.GetLandmark(landmark.landmarkId);
+                BoneInfo entry = BoneLoader.Instance.GetBoneInfo(landmark.landmarkId);
                 if (entry != null)
                 {
                     Debug.Log("Clicked Landmark: " + entry.name);
