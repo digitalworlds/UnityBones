@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class DraggableBone : MonoBehaviour
 {
+    public static bool anyBoneBeingDragged = false;
     public string boneId; // match this bone to its correct target
 
     private bool isPlaced = false; // locks bone if correctly matched
@@ -16,6 +17,7 @@ public class DraggableBone : MonoBehaviour
     private Vector3 initialPosition;
     private Quaternion initialRotation;
     private float initialScreenX;
+
 
     void Start()
     {
@@ -37,6 +39,7 @@ public class DraggableBone : MonoBehaviour
             renderer.material.SetColor("_Color", new Color(0, 0, 1, 0.1f));
 
             isBeingDragged = false; // stops drag state
+            anyBoneBeingDragged = false;
 
             float dist = Vector3.Distance(transform.position, reference.position);
             Debug.Log(dist);
@@ -69,7 +72,8 @@ public class DraggableBone : MonoBehaviour
             initialRotation=transform.rotation;
             initialScreenX=Camera.main.WorldToScreenPoint(transform.position).x;
             isBeingDragged = true;
-            
+            anyBoneBeingDragged = true;
+
         }
     }
 
@@ -96,4 +100,10 @@ public class DraggableBone : MonoBehaviour
             transform.position = Camera.main.ScreenToWorldPoint(mousePos);
         }
     }
+
+    public bool IsDragging()
+    {
+        return isBeingDragged;
+    }
+
 }
