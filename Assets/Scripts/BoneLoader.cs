@@ -93,6 +93,7 @@ public class BoneLoader : MonoBehaviour
         newChild.transform.parent = transform; 
         newChild.SetActive(false);
 
+        Debug.Log(glb_url);
         await gltfImport.Load(glb_url);
         var instantiator = new GameObjectInstantiator(gltfImport,newChild.transform);
         var success=await gltfImport.InstantiateMainSceneAsync(instantiator);
@@ -126,7 +127,7 @@ public class BoneLoader : MonoBehaviour
             foreach (var entry in boneDict)
             {
                 BoneInfo bone = entry.Value;
-
+                Debug.Log(bone.id);
                 GameObject outterBoneHolder = new GameObject(bone.id);
                 outterBoneHolder.transform.parent=newChild.transform; 
 
@@ -140,8 +141,9 @@ public class BoneLoader : MonoBehaviour
                 boneObject.transform.parent=boneHolder.transform;
 
                 renderer = boneObject.GetComponentInChildren<Renderer>();
-                boundingBox = renderer.bounds; 
-
+                if(renderer!=null){
+                    boundingBox = renderer.bounds; 
+                }
                 objectDict[bone.id]=outterBoneHolder;
             }
 
