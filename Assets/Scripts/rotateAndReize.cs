@@ -14,13 +14,17 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private float scaleSliderNum;
     void Update()
     {
-        angleSliderNumLR = rotationSliderLR.value*10f;
-        angleSliderNumUD = rotationSliderUD.value*10f;
-        this.transform.rotation = Quaternion.Euler(angleSliderNumUD,angleSliderNumLR,0);
+        if(rotationSliderLR!=null){
+            angleSliderNumLR = rotationSliderLR.value*10f;
+            angleSliderNumUD = rotationSliderUD.value*10f;
+            this.transform.rotation = Quaternion.Euler(angleSliderNumUD,angleSliderNumLR,0);
+        }
 
-        scaleSliderNum = scaleSlider.value;
-        Vector3 scale = new Vector3(scaleSliderNum,scaleSliderNum,scaleSliderNum);
-        this.transform.localScale = scale; 
+        if(scaleSlider!=null){
+            scaleSliderNum = scaleSlider.value;
+            Vector3 scale = new Vector3(scaleSliderNum,scaleSliderNum,scaleSliderNum);
+            this.transform.localScale = scale; 
+        }
         
     }
 }

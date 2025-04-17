@@ -15,6 +15,7 @@ public class BoneScatterManager : MonoBehaviour
     // Add scatter section here
     [Header("Draggable Bone Settings")]
     public Transform scatterArea;
+
     public Vector3 scatterBounds = new Vector3(2f, 2f, 2f); // adjust as needed
 
     //Spawns reference and draggable bones
@@ -84,7 +85,7 @@ public class BoneScatterManager : MonoBehaviour
                 // Spanw bones for draggable
                 GameObject draggableBone = Instantiate(bonePrefab);
                 draggableBone.name = boneId;
-                draggableBone.transform.parent = null;
+                draggableBone.transform.parent = scatterArea;
 
             
 
