@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//SCRIPT BY: christian Creates Game 
 public class ToggleSwitchGroupManager : MonoBehaviour
     {
         [Header("Start Value")]

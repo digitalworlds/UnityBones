@@ -8,6 +8,9 @@ public class DraggableBone : MonoBehaviour
 {
     public string boneId; // match this bone to its correct target
 
+    [Header("TEST")]
+    public Transform referenceArea;
+
     private bool isPlaced = false; // locks bone if correctly matched
     private bool isBeingDragged = false; // tracks if bone is currently being dragged
 
@@ -35,6 +38,8 @@ public class DraggableBone : MonoBehaviour
             GameObject obj=reference.gameObject;
             Renderer renderer = obj.GetComponentInChildren<Renderer>();
             renderer.material.SetColor("_Color", new Color(0, 0, 1, 0.1f));
+            
+            
 
             isBeingDragged = false; // stops drag state
 
@@ -53,6 +58,7 @@ public class DraggableBone : MonoBehaviour
 
                 PiecesPlacedTracker.instance.PiecesPlacedCounter();
                 Debug.Log($"✅ {boneId} placed correctly.");
+                obj.transform.parent =referenceArea;
             }
         }
     }
