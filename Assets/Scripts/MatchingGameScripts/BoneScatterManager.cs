@@ -40,8 +40,7 @@ public class BoneScatterManager : MonoBehaviour
                 SetTransparency(referenceBone, 0.5f);
                 //MakeTransparent(referenceBone); // suppose to be see through - need to work on this 🔙
 
-                MatchingGameManager.Instance.RegisterCorrectPosition(boneId, referenceBone.transform);// correct target position for that bome
-
+                MatchingGameManager.Instance.RegisterCorrectPosition(boneId, referenceBone.transform);// correct target position for that bone
             }
         }
 
@@ -52,10 +51,9 @@ public class BoneScatterManager : MonoBehaviour
     {
         Renderer renderer = obj.GetComponentInChildren<Renderer>();
 
-        
         if (renderer != null)
         {
-            renderer.material=null;
+            renderer.material = null;
             Material newMaterial = new Material(Resources.Load<Material>("TransparentMaterial"));
             if (newMaterial != null)
             {
@@ -69,7 +67,6 @@ public class BoneScatterManager : MonoBehaviour
         }
     }
 
-
     private IEnumerator SpawnScatteredBones()
     {
         yield return new WaitUntil(() => BoneLoader.Instance.IsGLBLoaded()); // wait again for glb to finish loading 
@@ -81,12 +78,10 @@ public class BoneScatterManager : MonoBehaviour
 
             if (bonePrefab != null)
             {
-                // Spanw bones for draggable
+                // Spawn bones for draggable
                 GameObject draggableBone = Instantiate(bonePrefab);
                 draggableBone.name = boneId;
                 draggableBone.transform.parent = null;
-
-            
 
                 // Calculate random position inside scatter area
                 Vector3 scatterCenter = scatterArea.position;
@@ -95,10 +90,10 @@ public class BoneScatterManager : MonoBehaviour
                     Random.Range(-scatterBounds.y, scatterBounds.y),
                     Random.Range(-scatterBounds.z, scatterBounds.z)
                 );
-                Vector3 scatterPosition = scatterCenter + 0*randomOffset;
+                Vector3 scatterPosition = scatterCenter + 0 * randomOffset;
 
                 draggableBone.transform.position = scatterPosition;
-                draggableBone.transform.rotation = Quaternion.Euler( // randomly rotates the bone on all 3 axes 
+                draggableBone.transform.rotation = Quaternion.Euler(
                     Random.Range(0f, 360f),
                     Random.Range(0f, 360f),
                     Random.Range(0f, 360f)
@@ -111,44 +106,45 @@ public class BoneScatterManager : MonoBehaviour
                     drag.boneId = boneId;
                 }
 
+                // ✅ NEW: MeshFilter safety check
                 MeshFilter childMeshFilter = draggableBone.GetComponentInChildren<MeshFilter>();
+                if (childMeshFilter == null)
+                {
+                    Debug.LogWarning($"❗ MeshFilter not found for {boneId}, skipping collider setup.");
+                    continue;
+                }
+
                 // Add MeshCollider to trigger interaction
                 if (draggableBone.GetComponent<Collider>() == null)
                 {
-                    // Create a new mesh instance (avoid modifying the shared asset)
                     Mesh transformedMesh = Instantiate(childMeshFilter.sharedMesh);
 
                     // Apply child's transform to the mesh vertices
                     Transform childTransform = childMeshFilter.transform;
                     Vector3[] vertices = transformedMesh.vertices;
-                    
+
                     for (int i = 0; i < vertices.Length; i++)
                     {
                         vertices[i] = childTransform.TransformPoint(vertices[i]); // Convert to world space
                         vertices[i] = draggableBone.transform.InverseTransformPoint(vertices[i]); // Convert to parent space
                     }
-                    
+
                     transformedMesh.vertices = vertices;
                     transformedMesh.RecalculateBounds();
 
                     // Add MeshCollider to parent and assign the transformed mesh
                     MeshCollider collider = draggableBone.AddComponent<MeshCollider>();
                     collider.sharedMesh = transformedMesh;
-
-                    //Rigidbody rigidbody=draggableBone.AddComponent<Rigidbody>();
-                    
                 }
 
                 //Debug.Log($"🦴 {boneId} scattered to {scatterPosition}");
             }
         }
 
-
-
         Debug.Log("✅ All bones scattered!");
     }
 
-    // suppose to help with transparancy of reference skull but its not giving the look I desire - will come 🔙 
+    // suppose to help with transparency of reference skull but its not giving the look I desire - will come 🔙 
     private void MakeTransparent(GameObject bone)
     {
         foreach (Renderer r in bone.GetComponentsInChildren<Renderer>())
